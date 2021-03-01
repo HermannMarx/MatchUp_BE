@@ -1,6 +1,6 @@
 //import mogoose.model
-const { getMaxListeners } = require("../models/User");
 const USER = require("../models/User");
+const { userInvites } = require("./EventsController");
 
 module.exports = {
   getAllUsers: async (req, res) => {
@@ -11,37 +11,53 @@ module.exports = {
     res.send("Hello UserById");
   },
   createUser: async (req, res) => {
+    const {
+      username,
+      email,
+      password,
+      city,
+      lat,
+      lng,
+      football,
+      basketball,
+      volleyball,
+      beachvolleyball,
+      tennis,
+      icehockey,
+      handball,
+      pingpong,
+      badminton,
+      americanfootball,
+      rubgy,
+      kubb,
+      boules,
+    } = req.body;
     dbRes = await USER.create({
-      username: "Hermann",
+      username: username,
       avatar: "first.png",
-      email: "hermann@user.de",
-      password: "1234",
+      email: email,
+      password: password,
       location: {
-        city: "Cologne",
-        lat: "1234",
-        lng: "5678",
+        city: city,
+        lat: lat,
+        lng: lng,
       },
       interests: {
-        football: true,
-        basketball: true,
-        volleyball: true,
-        beachvolleyball: true,
-        tennis: false,
-        icehockey: false,
-        handball: false,
-        pingpong: false,
-        badminton: false,
-        americanfootball: true,
-        rubgy: true,
-        kubb: true,
-        boules: false,
+        football: football || null,
+        basketball: basketball || null,
+        volleyball: volleyball || null,
+        beachvolleyball: beachvolleyball || null,
+        tennis: tennis || null,
+        icehockey: icehockey || null,
+        handball: handball || null,
+        pingpong: pingpong || null,
+        badminton: badminton || null,
+        americanfootball: americanfootball || null,
+        rubgy: rubgy || null,
+        kubb: kubb || null,
+        boules: boules || null,
       },
-      events: [
-        {
-          event_id: "event1",
-          status: "accept",
-        },
-      ],
+      events: [],
     });
     res.json(dbRes);
   },

@@ -12,20 +12,15 @@ module.exports = {
     res.send("Inserted Results");
   },
   createLeague: async (req, res) => {
+    const { city, lat, lng, activity } = req.body;
     dbRes = await LEAGUE.create({
       location: {
-        city: "Cologne",
-        lat: "1234",
-        lng: "5678",
+        city: city || null,
+        lat: lat || null,
+        lng: lng || null,
       }, //google.maps validation
-      activity: "basketball",
-      players: [
-        {
-          player_id: "603cfed4da1afb490c97bdf5",
-          wins: 5,
-          attend: 6,
-        },
-      ],
+      activity: activity || null,
+      players: [],
     });
     res.json(dbRes);
   },

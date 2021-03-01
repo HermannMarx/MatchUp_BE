@@ -1,5 +1,6 @@
 express = require("express");
 app = express();
+const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
 const users = require("./routes/Users");
@@ -13,6 +14,9 @@ mongoose.connect(mongoDB, { useNewUrlParser: true });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 PORT = 3000;
 
