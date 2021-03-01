@@ -1,8 +1,18 @@
 express = require("express");
 app = express();
-users = require("./routes/Users");
-events = require("./routes/Events");
-leagues = require("./routes/Leagues");
+
+const mongoose = require("mongoose");
+const users = require("./routes/Users");
+const events = require("./routes/Events");
+const leagues = require("./routes/Leagues");
+
+const mongoDB =
+  "mongodb+srv://dbUser:M0ng02020@cluster0.xbvep.mongodb.net/MatchUp?retryWrites=true&w=majority";
+
+mongoose.connect(mongoDB, { useNewUrlParser: true });
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 PORT = 3000;
 

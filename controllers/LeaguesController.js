@@ -1,4 +1,5 @@
 //import mogoose.model
+const LEAGUE = require("../models/League");
 
 module.exports = {
   getAllLeagues: (req, res) => {
@@ -10,7 +11,22 @@ module.exports = {
   insertResults: (req, res) => {
     res.send("Inserted Results");
   },
-  createLeague: (req, res) => {
-    res.send("Created League");
+  createLeague: async (req, res) => {
+    dbRes = await LEAGUE.create({
+      location: {
+        city: "Cologne",
+        lat: "1234",
+        lng: "5678",
+      }, //google.maps validation
+      activity: "basketball",
+      players: [
+        {
+          player_id: "603cfed4da1afb490c97bdf5",
+          wins: 5,
+          attend: 6,
+        },
+      ],
+    });
+    res.json(dbRes);
   },
 };
