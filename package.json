@@ -1,0 +1,11 @@
+{
+  "name": "matchup_be",
+  "version": "1.0.0",
+  "description": "Final Project for WBS Coding School. Backend of the App MatchUp which enables the user to create and attend small sport events.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hermann Marx",
+  "license": "ISC"
+}
