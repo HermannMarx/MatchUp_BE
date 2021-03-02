@@ -1,15 +1,42 @@
 //import mogoose.model
+const { db } = require("../models/Event");
 const EVENT = require("../models/Event");
 
 module.exports = {
-  getAllEvents: (req, res) => {
-    res.send("Hello EventsController");
+  getAllEvents: async (req, res) => {
+    const dbRes = await EVENT.find({});
+    res.json(dbRes);
   },
-  getByUser: (req, res) => {
-    res.send("EventsbyUser");
+  getByUser: async (req, res) => {
+    const dbRes = await EVENT.find({ player_id: ["603cfed4da1afb490c97bdf5"] });
+    res.json(dbRes);
   },
-  userInvites: (req, res) => {
-    res.send("INvites");
+  getInvitesByUser: async (req, res) => {
+    res.send("your invites");
+  },
+  eventInvites: async (req, res) => {
+    const { id } = req.body;
+    const players = id.length;
+
+    for (let i = 0; i < players; i++) {
+      await EVENT.updateOne(
+        { _id: id },
+        {
+          $set: {
+            players: [
+              {
+                player_id: "603cfed4da1afb490c97bdf5",
+                answer: false,
+                accept: false,
+                attend: false,
+                winner: false,
+              },
+            ],
+          },
+        }
+      );
+    }
+    res.send("Players have been invited");
   },
   createEvent: async (req, res) => {
     const {

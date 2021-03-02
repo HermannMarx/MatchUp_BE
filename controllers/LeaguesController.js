@@ -2,8 +2,9 @@
 const LEAGUE = require("../models/League");
 
 module.exports = {
-  getAllLeagues: (req, res) => {
-    res.send("Hello LeagueController");
+  getAllLeagues: async (req, res) => {
+    const dbRes = await LEAGUE.find({});
+    res.json(dbRes);
   },
   getLeaguesById: (req, res) => {
     res.send("Leagues by id");

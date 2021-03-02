@@ -1,10 +1,9 @@
 //import mogoose.model
 const USER = require("../models/User");
-const { userInvites } = require("./EventsController");
 
 module.exports = {
   getAllUsers: async (req, res) => {
-    dbRes = await POST.find({});
+    dbRes = await USER.find({});
     res.json(dbRes);
   },
   getUserById: (req, res) => {
