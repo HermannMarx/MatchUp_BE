@@ -6,8 +6,11 @@ module.exports = {
     dbRes = await USER.find({});
     res.json(dbRes);
   },
-  getUserById: (req, res) => {
-    res.send("Hello UserById");
+  getUserById: async (req, res) => {
+    const { id } = req.body;
+
+    dbRes = await USER.find({ _id: id });
+    res.json(dbRes);
   },
   createUser: async (req, res) => {
     const {

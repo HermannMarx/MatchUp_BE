@@ -8,34 +8,45 @@ module.exports = {
     res.json(dbRes);
   },
   getByUser: async (req, res) => {
-    const dbRes = await EVENT.find({ player_id: ["603cfed4da1afb490c97bdf5"] });
+    const { player_id } = req.body;
+    const dbRes = await EVENT.find({
+      "players.player_id": player_id,
+      "players.accept": true,
+    });
     res.json(dbRes);
   },
   getInvitesByUser: async (req, res) => {
-    res.send("your invites");
+    const { player_id } = req.body;
+    const dbRes = await EVENT.find({
+      "players.player_id": player_id,
+      "players.answer": false,
+    });
+    res.json(dbRes);
   },
   eventInvites: async (req, res) => {
-    const { id } = req.body;
-    const players = id.length;
+    const { id, players } = req.body;
+    const arrayOfPlayers = players.split(",");
+    const num = arrayOfPlayers.length;
 
-    for (let i = 0; i < players; i++) {
+    console.log("This is players: " + players);
+
+    for (let i = 0; i < num; i++) {
       await EVENT.updateOne(
         { _id: id },
         {
-          $set: {
-            players: [
-              {
-                player_id: "603cfed4da1afb490c97bdf5",
-                answer: false,
-                accept: false,
-                attend: false,
-                winner: false,
-              },
-            ],
+          $push: {
+            players: {
+              player_id: arrayOfPlayers[i],
+              answer: false,
+              accept: false,
+              attend: false,
+              winner: false,
+            },
           },
         }
       );
     }
+
     res.send("Players have been invited");
   },
   createEvent: async (req, res) => {

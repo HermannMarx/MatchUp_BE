@@ -1,4 +1,5 @@
 //import mogoose.model
+const { db } = require("../models/League");
 const LEAGUE = require("../models/League");
 
 module.exports = {
@@ -6,8 +7,12 @@ module.exports = {
     const dbRes = await LEAGUE.find({});
     res.json(dbRes);
   },
-  getLeaguesById: (req, res) => {
-    res.send("Leagues by id");
+  getLeaguesById: async (req, res) => {
+    const { player_id } = req.body;
+    const dbRes = await LEAGUE.find({
+      "players.player_id": player_id,
+    });
+    res.json(dbRes);
   },
   insertResults: (req, res) => {
     res.send("Inserted Results");
@@ -23,6 +28,22 @@ module.exports = {
       activity: activity || null,
       players: [],
     });
+    res.json(dbRes);
+  },
+  insertUser: async (req, res) => {
+    const { id, player_id } = req.body;
+    dbRes = await LEAGUE.updateOne(
+      { _id: id },
+      {
+        $push: {
+          players: {
+            player_id: player_id,
+            wins: 0,
+            attend: 0,
+          },
+        },
+      }
+    );
     res.json(dbRes);
   },
 };

@@ -27,12 +27,12 @@ const userSchema = new Schema({
     kubb: Boolean,
     boules: Boolean,
   },
-  events: [
+  /*   events: [
     {
-      event_id: String,
+      event_id: [{ type: Schema.Types.ObjectId, ref: "Event" }],
       status: String,
     },
-  ],
+  ], */
 });
 
 module.exports = mongoose.model("USER", userSchema);

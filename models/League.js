@@ -11,7 +11,7 @@ const leagueSchema = new Schema({
   activity: String,
   players: [
     {
-      player_id: String,
+      player_id: [{ type: Schema.Types.ObjectId, ref: "User" }],
       wins: Number,
       attend: Number,
     },
