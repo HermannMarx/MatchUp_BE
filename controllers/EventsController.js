@@ -8,17 +8,17 @@ module.exports = {
     res.json(dbRes);
   },
   getByUser: async (req, res) => {
-    const { player_id } = req.body;
+    const { id } = req.params;
     const dbRes = await EVENT.find({
-      "players.player_id": player_id,
+      "players.player_id": id,
       "players.accept": true,
     });
     res.json(dbRes);
   },
-  getInvitesByUser: async (req, res) => {
-    const { player_id } = req.body;
+  getInvites: async (req, res) => {
+    const { id } = req.params;
     const dbRes = await EVENT.find({
-      "players.player_id": player_id,
+      "players.player_id": id,
       "players.answer": false,
     });
     res.json(dbRes);

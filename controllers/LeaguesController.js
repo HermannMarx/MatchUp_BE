@@ -8,9 +8,9 @@ module.exports = {
     res.json(dbRes);
   },
   getLeaguesById: async (req, res) => {
-    const { player_id } = req.body;
+    const { id } = req.params;
     const dbRes = await LEAGUE.find({
-      "players.player_id": player_id,
+      "players.player_id": id,
     });
     res.json(dbRes);
   },

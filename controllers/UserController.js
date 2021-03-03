@@ -6,8 +6,8 @@ module.exports = {
     dbRes = await USER.find({});
     res.json(dbRes);
   },
-  getUserById: async (req, res) => {
-    const { id } = req.body;
+  getUser: async (req, res) => {
+    const { id } = req.params;
 
     dbRes = await USER.find({ _id: id });
     res.json(dbRes);
