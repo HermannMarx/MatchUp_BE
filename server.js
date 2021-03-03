@@ -29,4 +29,6 @@ app.use("/", leagues);
 // for heroku deployment
 app.use("/", (req, res) => res.send("Welcome to MatchUp"));
 
-app.listen(PORT, () => console.log(`Server is listening on Port ${PORT}`));
+app.listen(PORT || 3000, () =>
+  console.log(`Server is listening on Port ${PORT}`)
+);
