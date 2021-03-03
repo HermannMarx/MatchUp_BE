@@ -1,10 +1,27 @@
 express = require("express");
 app = express();
-users = require("./routes/Users");
-events = require("./routes/Events");
-leagues = require("./routes/Leagues");
+dotenv = require("dotenv");
+dotenv.config();
 
-PORT = 3000;
+const { PORT, DBUSER, DBPASS, DBHOST, DBNAME } = process.env;
+console.log(PORT, DBUSER, DBPASS, DBHOST, DBNAME);
+
+const bodyParser = require("body-parser");
+
+const mongoose = require("mongoose");
+const users = require("./routes/Users");
+const events = require("./routes/Events");
+const leagues = require("./routes/Leagues");
+
+const mongoDB = `mongodb+srv://${DBUSER}:${DBPASS}@${DBHOST}/${DBNAME}`;
+
+mongoose.connect(mongoDB, { useNewUrlParser: true });
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", users);
 app.use("/", events);
