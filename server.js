@@ -26,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", users);
 app.use("/", events);
 app.use("/", leagues);
+// for herolu deployment
 app.use("/", (req, res) => res.send("Welcome to MatchUp"));
 
 app.listen(PORT, () => console.log(`Server is listening on Port ${PORT}`));
