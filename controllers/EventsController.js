@@ -1,6 +1,7 @@
 //import mogoose.model
 const { db } = require("../models/Event");
 const EVENT = require("../models/Event");
+const mongoose = require("mongoose");
 
 module.exports = {
   getAllEvents: async (req, res) => {
@@ -18,12 +19,13 @@ module.exports = {
   },
   getPlayers: async (req, res) => {
     const { id } = req.params;
+
     const dbRes = await EVENT /* .find({
       "players.player_id": id,
       "players.accept": true,
     }) */.aggregate(
       [
-        { $match: { "players.player_id": id } },
+        /*  { $match: { "players.player_id": id } }, */
         {
           $lookup: {
             from: "users",
@@ -53,6 +55,7 @@ module.exports = {
         if (err) return console.log(err);
         console.log("The players.name", event);
       }); */
+
     res.send(dbRes);
   },
   getInvites: async (req, res) => {
@@ -77,10 +80,10 @@ module.exports = {
           $push: {
             players: {
               player_id: arrayOfPlayers[i],
-              answer: false,
-              accept: false,
-              attend: false,
-              winner: false,
+              answer: true,
+              accept: true,
+              attend: true,
+              winner: true,
             },
           },
         }
@@ -112,13 +115,13 @@ module.exports = {
       activity: activity || null, //must match one of the interests of the user who creates the match
       organizer: organizer || null, // must refer to the _id of the user creating this event.
       players: [
-        {
+        /* {
           player_id: player_id,
           answer: true,
           accept: true,
           attend: true,
           winner: true,
-        },
+        }, */
       ],
       league_id: league_id || null,
     });

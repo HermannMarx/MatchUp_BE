@@ -21,11 +21,11 @@ module.exports = {
     const { city, lat, lng, activity } = req.body;
     dbRes = await LEAGUE.create({
       location: {
-        city: city || null,
-        lat: lat || null,
-        lng: lng || null,
+        city: city,
+        lat: lat,
+        lng: lng,
       }, //google.maps validation
-      activity: activity || null,
+      activity: activity,
       players: [],
     });
     res.json(dbRes);
