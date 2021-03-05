@@ -59,8 +59,22 @@ module.exports = {
         kubb: kubb || null,
         boules: boules || null,
       },
-      events: [],
+      /*  events: [], */
     });
     res.json(dbRes);
+  },
+  login: async (req, res) => {
+    const { username, password } = req.body;
+
+    dbUsername = await USER.find({ username: username });
+    console.log(dbUsername[0].password);
+    if (dbUsername[0].password === password) {
+      res.json({
+        code: 200,
+        _id: dbUsername[0]._id,
+      });
+    } else {
+      res.sendStatus(401);
+    }
   },
 };
