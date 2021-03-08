@@ -68,62 +68,80 @@ module.exports = {
   },
   eventInvites: async (req, res) => {
     const { id, players } = req.body;
-    const arrayOfPlayers = players.split(",");
-    const num = arrayOfPlayers.length;
-
-    console.log("This is players: " + players);
+    console.log(players);
+    console.log(id);
+    num = players.length;
 
     for (let i = 0; i < num; i++) {
-      await EVENT.updateOne(
+      dbRes = await EVENT.updateOne(
         { _id: id },
         {
           $push: {
             players: {
-              player_id: arrayOfPlayers[i],
-              answer: true,
-              accept: true,
-              attend: true,
-              winner: true,
+              player_id: players[i]._id,
+              player_name: players[i].username,
+              answer: false,
+              accept: false,
+              attend: false,
+              winner: false,
             },
           },
         }
       );
     }
 
+    //const arrayOfPlayers = players.split(",");
+    //const num = arrayOfPlayers.length;
+
+    //console.log("This is players: " + players);
+
+    /*  for (let i = 0; i < num; i++) {
+    } */
+
     res.send("Players have been invited");
   },
   createEvent: async (req, res) => {
     const {
       player_id,
+      players,
       city,
-      lat,
-      lng,
+      latLng,
+      date,
       starttime,
       endtime,
       activity,
       organizer,
+      organizer_name,
       league_id,
+      information,
     } = req.body;
+
+    const validStart = date.split("T")[0] + "T" + starttime + ":00.000+00:00";
+    const validEnd = date.split("T")[0] + "T" + endtime + ":00.000+00:00";
+
+    console.log("This is date: ", validStart);
+
     dbRes = await EVENT.create({
       location: {
         city: city || null,
-        lat: lat || null,
-        lng: lng || null,
+        latLng: latLng || null,
       },
-      starttime: starttime || null, //how works the Mongo DB data type for date?
-      endtime: endtime || null,
-      activity: activity || null, //must match one of the interests of the user who creates the match
+      date: date,
+      starttime: validStart || null, //how works the Mongo DB data type for date? //must match one of the interests of the user who creates the match
+      endtime: validEnd || null,
+      activity: activity || null,
       organizer: organizer || null, // must refer to the _id of the user creating this event.
-      players: [
-        /* {
+      organizer_name: organizer_name || null,
+      players: [],
+      /* {
           player_id: player_id,
           answer: true,
           accept: true,
           attend: true,
           winner: true,
         }, */
-      ],
       league_id: league_id || null,
+      information: information,
     });
     res.json(dbRes);
   },

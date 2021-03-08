@@ -10,10 +10,11 @@ const userSchema = new Schema({
   password: String,
   location: {
     city: String,
-    lat: String,
-    lng: String,
+    latLng: Object,
   },
-  interests: {
+  interests: Array,
+
+  /*  {
     football: Boolean,
     basketball: Boolean,
     volleyball: Boolean,
@@ -27,7 +28,7 @@ const userSchema = new Schema({
     rubgy: Boolean,
     kubb: Boolean,
     boules: Boolean,
-  },
+  }, */
   /*   events: [
     {
       event_id: [{ type: Schema.Types.ObjectId, ref: "Event" }],

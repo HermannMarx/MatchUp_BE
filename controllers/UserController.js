@@ -18,9 +18,9 @@ module.exports = {
       email,
       password,
       city,
-      lat,
-      lng,
-      football,
+      latLng,
+      interests,
+      /*     football,
       basketball,
       volleyball,
       beachvolleyball,
@@ -32,7 +32,7 @@ module.exports = {
       americanfootball,
       rubgy,
       kubb,
-      boules,
+      boules, */
     } = req.body;
     dbRes = await USER.create({
       username: username,
@@ -41,10 +41,10 @@ module.exports = {
       password: password,
       location: {
         city: city,
-        lat: lat,
-        lng: lng,
+        latLng: latLng,
       },
-      interests: {
+      interests: interests,
+      /* {
         football: football || null,
         basketball: basketball || null,
         volleyball: volleyball || null,
@@ -58,7 +58,7 @@ module.exports = {
         rubgy: rubgy || null,
         kubb: kubb || null,
         boules: boules || null,
-      },
+      }, */
       /*  events: [], */
     });
     res.json(dbRes);
