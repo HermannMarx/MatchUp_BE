@@ -12,10 +12,23 @@ module.exports = {
     const { id } = req.params;
     const dbRes = await EVENT.find({
       "players.player_id": id,
-      "players.accept": true,
+      /* "players.accept": true, */
     });
-    console.log("This is dbRes :" + dbRes);
-    res.json(dbRes);
+    const dbLength = dbRes.length;
+
+    let dbFiltered = [];
+
+    for (let i = 0; i < dbLength; i++) {
+      dbRes[i].players.map((player, index) => {
+        if (player.player_id == id && player.accept === true)
+          dbFiltered.push(dbRes[i]);
+      });
+    }
+
+    /*   if ("2021-03-07T16:35:55.433+00:00" < "2021-03-07U16:35:55.433+00:00")
+      console.log("First number is bigger!");
+    else console.log("Second number is bigger"); */
+    res.json(dbFiltered);
   },
   getPlayers: async (req, res) => {
     const { id } = req.params;
@@ -62,9 +75,19 @@ module.exports = {
     const { id } = req.params;
     const dbRes = await EVENT.find({
       "players.player_id": id,
-      "players.answer": false,
+      /* "players.answer": false, */
     });
-    res.json(dbRes);
+
+    let dbFiltered = [];
+
+    for (let i = 0; i < dbRes.length; i++) {
+      dbRes[i].players.map((player, index) => {
+        if (player.player_id == id && player.answer === false) {
+          dbFiltered.push(dbRes[i]);
+        }
+      });
+    }
+    res.json(dbFiltered);
   },
   eventInvites: async (req, res) => {
     const { id, players } = req.body;
