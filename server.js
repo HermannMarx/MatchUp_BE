@@ -1,5 +1,6 @@
 express = require("express");
 app = express();
+cors = require("cors");
 dotenv = require("dotenv");
 dotenv.config();
 
@@ -20,6 +21,7 @@ mongoose.connect(mongoDB, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

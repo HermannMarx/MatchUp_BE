@@ -3,16 +3,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  /* _id: Schema.Types.ObjectId, */
   username: String,
   avatar: String,
   email: String,
   password: String,
   location: {
     city: String,
-    lat: String,
-    lng: String,
+    latLng: Object,
   },
-  interests: {
+  interests: Array,
+
+  /*  {
     football: Boolean,
     basketball: Boolean,
     volleyball: Boolean,
@@ -26,7 +28,7 @@ const userSchema = new Schema({
     rubgy: Boolean,
     kubb: Boolean,
     boules: Boolean,
-  },
+  }, */
   /*   events: [
     {
       event_id: [{ type: Schema.Types.ObjectId, ref: "Event" }],

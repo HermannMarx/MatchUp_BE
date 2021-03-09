@@ -1,6 +1,7 @@
 //import mogoose.model
 const { db } = require("../models/Event");
 const EVENT = require("../models/Event");
+const mongoose = require("mongoose");
 
 module.exports = {
   getAllEvents: async (req, res) => {
@@ -11,32 +12,137 @@ module.exports = {
     const { id } = req.params;
     const dbRes = await EVENT.find({
       "players.player_id": id,
-      "players.accept": true,
+      /* "players.accept": true, */
     });
-    res.json(dbRes);
+    const dbLength = dbRes.length;
+
+    let dbFiltered = [];
+
+    for (let i = 0; i < dbLength; i++) {
+      dbRes[i].players.map((player, index) => {
+        if (player.player_id == id && player.accept === true)
+          dbFiltered.push(dbRes[i]);
+      });
+    }
+
+    let dbExp = [];
+    const date = new Date();
+    const yr = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const hrs = date.getHours();
+    const mins = date.getMinutes();
+
+    const expDate =
+      yr + "-" + month + "-" + day + "T" + hrs + ":" + mins + ":00.000+00:00";
+
+    dbFiltered.map((event, index) => {
+      if (event.organizer === id || event.endtime > expDate) {
+        dbExp.push(event);
+      }
+      console.log("This is expDate: ", expDate);
+    });
+
+    /*   if ("2021-03-07T16:35:55.433+00:00" < "2021-03-07U16:35:55.433+00:00")
+      console.log("First number is bigger!");
+    else console.log("Second number is bigger"); */
+    res.json(dbExp);
+  },
+  getPlayers: async (req, res) => {
+    const { id } = req.params;
+
+    const dbRes = await EVENT /* .find({
+      "players.player_id": id,
+      "players.accept": true,
+    }) */.aggregate(
+      [
+        /*  { $match: { "players.player_id": id } }, */
+        {
+          $lookup: {
+            from: "users",
+            localField: "players.player_id",
+            foreignField: "_id",
+            as: "player_details",
+          },
+        },
+      ]
+    );
+
+    /*    const ResData = dbRes.filter((event) =>
+      event.players.includes(player_id[0] === id)
+    );
+    console.log("This is ResData: ", ResData); */
+
+    /*   .populate({
+      path: "players",
+      populate: {
+        path: "player_id",
+        model: "User",
+      },
+    }); */
+
+    /*   .populate("players.player_id")
+      .exec(function (err, event) {
+        if (err) return console.log(err);
+        console.log("The players.name", event);
+      }); */
+
+    res.send(dbRes);
   },
   getInvites: async (req, res) => {
     const { id } = req.params;
     const dbRes = await EVENT.find({
       "players.player_id": id,
-      "players.answer": false,
+      /* "players.answer": false, */
     });
-    res.json(dbRes);
+
+    let dbFiltered = [];
+
+    for (let i = 0; i < dbRes.length; i++) {
+      dbRes[i].players.map((player, index) => {
+        if (player.player_id == id && player.answer === false) {
+          dbFiltered.push(dbRes[i]);
+        }
+      });
+    }
+
+    let dbExp = [];
+    const date = new Date();
+    const yr = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const hrs = date.getHours();
+    const mins = date.getMinutes();
+
+    const expDate =
+      yr + "-" + month + "-" + day + "T" + hrs + ":" + mins + ":00.000+00:00";
+
+    dbFiltered.map((invite, index) => {
+      console.log("Endtime: ", expDate);
+      if (invite.endtime > expDate) {
+        dbExp.push(invite);
+      }
+      console.log("This is type: ", typeof invite.endtime);
+    });
+
+    /*  if (2021-03-07T16:35:55.433Z ) */
+
+    res.json(dbExp);
   },
   eventInvites: async (req, res) => {
     const { id, players } = req.body;
-    const arrayOfPlayers = players.split(",");
-    const num = arrayOfPlayers.length;
-
-    console.log("This is players: " + players);
+    console.log(players);
+    console.log(id);
+    num = players.length;
 
     for (let i = 0; i < num; i++) {
-      await EVENT.updateOne(
+      dbRes = await EVENT.updateOne(
         { _id: id },
         {
           $push: {
             players: {
-              player_id: arrayOfPlayers[i],
+              player_id: players[i]._id,
+              player_name: players[i].username,
               answer: false,
               accept: false,
               attend: false,
@@ -47,39 +153,83 @@ module.exports = {
       );
     }
 
+    //const arrayOfPlayers = players.split(",");
+    //const num = arrayOfPlayers.length;
+
+    //console.log("This is players: " + players);
+
+    /*  for (let i = 0; i < num; i++) {
+    } */
+
     res.send("Players have been invited");
+  },
+  accept: async (req, res) => {
+    const { id } = req.params;
+    const { event_id } = req.body;
+
+    const dbRes = await EVENT.updateOne(
+      { _id: event_id, "players.player_id": id },
+      {
+        $set: { "players.$.answer": true, "players.$.accept": true },
+      }
+    );
+    res.json(dbRes);
+  },
+
+  cancel: async (req, res) => {
+    const { id } = req.params;
+    const { event_id } = req.body;
+
+    const dbRes = await EVENT.updateOne(
+      { _id: event_id, "players.player_id": id },
+      {
+        $set: { "players.$.answer": true },
+      }
+    );
+    res.json(dbRes);
   },
   createEvent: async (req, res) => {
     const {
+      player_id,
+      players,
       city,
-      lat,
-      lng,
+      latLng,
+      date,
       starttime,
       endtime,
       activity,
       organizer,
+      organizer_name,
       league_id,
+      information,
     } = req.body;
+
+    const validStart = date.split("T")[0] + "T" + starttime + ":00.000+00:00";
+    const validEnd = date.split("T")[0] + "T" + endtime + ":00.000+00:00";
+
+    console.log("This is date: ", validStart);
+
     dbRes = await EVENT.create({
       location: {
         city: city || null,
-        lat: lat || null,
-        lng: lng || null,
+        latLng: latLng || null,
       },
-      starttime: starttime || null, //how works the Mongo DB data type for date?
-      endtime: endtime || null,
-      activity: activity || null, //must match one of the interests of the user who creates the match
+      date: date,
+      starttime: validStart || null, //how works the Mongo DB data type for date? //must match one of the interests of the user who creates the match
+      endtime: validEnd || null,
+      activity: activity || null,
       organizer: organizer || null, // must refer to the _id of the user creating this event.
-      players: [
-        /*  {
-          player_id: "603cfed4da1afb490c97bdf5",
+      organizer_name: organizer_name || null,
+      players: [],
+      /* {
+          player_id: player_id,
           answer: true,
           accept: true,
           attend: true,
           winner: true,
         }, */
-      ],
       league_id: league_id || null,
+      information: information,
     });
     res.json(dbRes);
   },

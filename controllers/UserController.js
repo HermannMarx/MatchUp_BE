@@ -18,9 +18,9 @@ module.exports = {
       email,
       password,
       city,
-      lat,
-      lng,
-      football,
+      latLng,
+      interests,
+      /*     football,
       basketball,
       volleyball,
       beachvolleyball,
@@ -32,7 +32,7 @@ module.exports = {
       americanfootball,
       rubgy,
       kubb,
-      boules,
+      boules, */
     } = req.body;
     dbRes = await USER.create({
       username: username,
@@ -41,10 +41,10 @@ module.exports = {
       password: password,
       location: {
         city: city,
-        lat: lat,
-        lng: lng,
+        latLng: latLng,
       },
-      interests: {
+      interests: interests,
+      /* {
         football: football || null,
         basketball: basketball || null,
         volleyball: volleyball || null,
@@ -58,9 +58,23 @@ module.exports = {
         rubgy: rubgy || null,
         kubb: kubb || null,
         boules: boules || null,
-      },
-      events: [],
+      }, */
+      /*  events: [], */
     });
     res.json(dbRes);
+  },
+  login: async (req, res) => {
+    const { username, password } = req.body;
+
+    dbUsername = await USER.find({ username: username });
+    console.log(dbUsername[0].password);
+    if (dbUsername[0].password === password) {
+      res.json({
+        code: 200,
+        _id: dbUsername[0]._id,
+      });
+    } else {
+      res.sendStatus(401);
+    }
   },
 };
