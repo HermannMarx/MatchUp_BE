@@ -8,9 +8,9 @@ const eventSchema = new Schema({
     city: String,
     latLng: Object,
   },
-  date: { type: Date, default: Date.now },
-  starttime: { type: Date, default: Date.now }, //how works the Mongo DB data type for date?
-  endtime: { type: Date, default: Date.now },
+  date: String,
+  starttime: String,
+  endtime: String,
   activity: String, //must match one of the interests of the user who creates the match
   organizer: String, // must refer to the _id of the user creating this event.
   organizer_name: String,

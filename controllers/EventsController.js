@@ -25,10 +25,28 @@ module.exports = {
       });
     }
 
+    let dbExp = [];
+    const date = new Date();
+    const yr = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const hrs = date.getHours();
+    const mins = date.getMinutes();
+
+    const expDate =
+      yr + "-" + month + "-" + day + "T" + hrs + ":" + mins + ":00.000+00:00";
+
+    dbFiltered.map((event, index) => {
+      if (event.organizer === id || event.endtime > expDate) {
+        dbExp.push(event);
+      }
+      console.log("This is expDate: ", expDate);
+    });
+
     /*   if ("2021-03-07T16:35:55.433+00:00" < "2021-03-07U16:35:55.433+00:00")
       console.log("First number is bigger!");
     else console.log("Second number is bigger"); */
-    res.json(dbFiltered);
+    res.json(dbExp);
   },
   getPlayers: async (req, res) => {
     const { id } = req.params;
@@ -87,7 +105,29 @@ module.exports = {
         }
       });
     }
-    res.json(dbFiltered);
+
+    let dbExp = [];
+    const date = new Date();
+    const yr = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const hrs = date.getHours();
+    const mins = date.getMinutes();
+
+    const expDate =
+      yr + "-" + month + "-" + day + "T" + hrs + ":" + mins + ":00.000+00:00";
+
+    dbFiltered.map((invite, index) => {
+      console.log("Endtime: ", expDate);
+      if (invite.endtime > expDate) {
+        dbExp.push(invite);
+      }
+      console.log("This is type: ", typeof invite.endtime);
+    });
+
+    /*  if (2021-03-07T16:35:55.433Z ) */
+
+    res.json(dbExp);
   },
   eventInvites: async (req, res) => {
     const { id, players } = req.body;
@@ -122,6 +162,31 @@ module.exports = {
     } */
 
     res.send("Players have been invited");
+  },
+  accept: async (req, res) => {
+    const { id } = req.params;
+    const { event_id } = req.body;
+
+    const dbRes = await EVENT.updateOne(
+      { _id: event_id, "players.player_id": id },
+      {
+        $set: { "players.$.answer": true, "players.$.accept": true },
+      }
+    );
+    res.json(dbRes);
+  },
+
+  cancel: async (req, res) => {
+    const { id } = req.params;
+    const { event_id } = req.body;
+
+    const dbRes = await EVENT.updateOne(
+      { _id: event_id, "players.player_id": id },
+      {
+        $set: { "players.$.answer": true },
+      }
+    );
+    res.json(dbRes);
   },
   createEvent: async (req, res) => {
     const {
