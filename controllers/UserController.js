@@ -61,7 +61,11 @@ module.exports = {
       }, */
       /*  events: [], */
     });
-    res.json(dbRes);
+    res.json({
+      code: 200,
+      message: "Successfully created account!",
+      data: dbRes,
+    });
   },
   login: async (req, res) => {
     const { username, password } = req.body;
