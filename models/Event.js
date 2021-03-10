@@ -11,8 +11,8 @@ const eventSchema = new Schema({
   date: String,
   starttime: String,
   endtime: String,
-  activity: String, //must match one of the interests of the user who creates the match
-  organizer: String, // must refer to the _id of the user creating this event.
+  activity: String,
+  organizer: String,
   organizer_name: String,
   players: [
     {

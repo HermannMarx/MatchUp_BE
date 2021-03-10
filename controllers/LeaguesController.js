@@ -1,4 +1,3 @@
-//import mogoose.model
 const { db } = require("../models/League");
 const LEAGUE = require("../models/League");
 
@@ -24,7 +23,7 @@ module.exports = {
         city: city,
         lat: lat,
         lng: lng,
-      }, //google.maps validation
+      },
       activity: activity,
       players: [],
     });
