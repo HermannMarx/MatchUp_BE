@@ -191,7 +191,6 @@ module.exports = {
   createEvent: async (req, res) => {
     const {
       player_id,
-      players,
       city,
       latLng,
       date,
@@ -220,14 +219,16 @@ module.exports = {
       activity: activity || null,
       organizer: organizer || null, // must refer to the _id of the user creating this event.
       organizer_name: organizer_name || null,
-      players: [],
-      /* {
-          player_id: player_id,
+      players: [
+        {
+          player_id: organizer,
+          player_name: organizer_name,
           answer: true,
           accept: true,
-          attend: true,
-          winner: true,
-        }, */
+          attend: false,
+          winner: false,
+        },
+      ],
       league_id: league_id || null,
       information: information,
     });
