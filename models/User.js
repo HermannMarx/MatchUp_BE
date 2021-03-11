@@ -9,7 +9,10 @@ const userSchema = new Schema({
   password: String,
   location: {
     city: String,
-    latLng: Object,
+    latLng: {
+      lat: Number,
+      lng: Number,
+    } /* Object, */,
   },
   interests: Array,
 });
