@@ -5,13 +5,13 @@ const Schema = mongoose.Schema;
 const leagueSchema = new Schema({
   location: {
     city: String,
-    lat: String,
-    lng: String,
-  }, //google.maps validation
+    latLng: Object,
+  },
   activity: String,
   players: [
     {
-      player_id: [{ type: Schema.Types.ObjectId, ref: "User" }],
+      player_id: { type: Schema.Types.ObjectId, ref: "User" },
+      player_name: String,
       wins: Number,
       attend: Number,
     },

@@ -1,4 +1,3 @@
-//import mogoose.model
 const { db } = require("../models/Event");
 const EVENT = require("../models/Event");
 const mongoose = require("mongoose");
@@ -40,54 +39,9 @@ module.exports = {
       if (event.organizer === id || event.endtime > expDate) {
         dbExp.push(event);
       }
-      console.log("This is expDate: ", expDate);
     });
 
-    /*   if ("2021-03-07T16:35:55.433+00:00" < "2021-03-07U16:35:55.433+00:00")
-      console.log("First number is bigger!");
-    else console.log("Second number is bigger"); */
     res.json(dbExp);
-  },
-  getPlayers: async (req, res) => {
-    const { id } = req.params;
-
-    const dbRes = await EVENT /* .find({
-      "players.player_id": id,
-      "players.accept": true,
-    }) */.aggregate(
-      [
-        /*  { $match: { "players.player_id": id } }, */
-        {
-          $lookup: {
-            from: "users",
-            localField: "players.player_id",
-            foreignField: "_id",
-            as: "player_details",
-          },
-        },
-      ]
-    );
-
-    /*    const ResData = dbRes.filter((event) =>
-      event.players.includes(player_id[0] === id)
-    );
-    console.log("This is ResData: ", ResData); */
-
-    /*   .populate({
-      path: "players",
-      populate: {
-        path: "player_id",
-        model: "User",
-      },
-    }); */
-
-    /*   .populate("players.player_id")
-      .exec(function (err, event) {
-        if (err) return console.log(err);
-        console.log("The players.name", event);
-      }); */
-
-    res.send(dbRes);
   },
   getInvites: async (req, res) => {
     const { id } = req.params;
@@ -125,8 +79,6 @@ module.exports = {
       console.log("This is type: ", typeof invite.endtime);
     });
 
-    /*  if (2021-03-07T16:35:55.433Z ) */
-
     res.json(dbExp);
   },
   eventInvites: async (req, res) => {
@@ -152,14 +104,6 @@ module.exports = {
         }
       );
     }
-
-    //const arrayOfPlayers = players.split(",");
-    //const num = arrayOfPlayers.length;
-
-    //console.log("This is players: " + players);
-
-    /*  for (let i = 0; i < num; i++) {
-    } */
 
     res.send("Players have been invited");
   },
@@ -190,7 +134,6 @@ module.exports = {
   },
   createEvent: async (req, res) => {
     const {
-      player_id,
       city,
       latLng,
       date,

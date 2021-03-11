@@ -1,4 +1,3 @@
-//import mogoose.model
 const USER = require("../models/User");
 
 module.exports = {
@@ -13,27 +12,7 @@ module.exports = {
     res.json(dbRes);
   },
   createUser: async (req, res) => {
-    const {
-      username,
-      email,
-      password,
-      city,
-      latLng,
-      interests,
-      /*     football,
-      basketball,
-      volleyball,
-      beachvolleyball,
-      tennis,
-      icehockey,
-      handball,
-      pingpong,
-      badminton,
-      americanfootball,
-      rubgy,
-      kubb,
-      boules, */
-    } = req.body;
+    const { username, email, password, city, latLng, interests } = req.body;
     dbRes = await USER.create({
       username: username,
       avatar: "first.png",
@@ -44,22 +23,6 @@ module.exports = {
         latLng: latLng,
       },
       interests: interests,
-      /* {
-        football: football || null,
-        basketball: basketball || null,
-        volleyball: volleyball || null,
-        beachvolleyball: beachvolleyball || null,
-        tennis: tennis || null,
-        icehockey: icehockey || null,
-        handball: handball || null,
-        pingpong: pingpong || null,
-        badminton: badminton || null,
-        americanfootball: americanfootball || null,
-        rubgy: rubgy || null,
-        kubb: kubb || null,
-        boules: boules || null,
-      }, */
-      /*  events: [], */
     });
     res.json({
       code: 200,
@@ -71,7 +34,6 @@ module.exports = {
     const { username, password } = req.body;
 
     dbUsername = await USER.find({ username: username });
-    console.log(dbUsername[0].password);
     if (dbUsername[0].password === password) {
       res.json({
         code: 200,
