@@ -57,6 +57,48 @@ module.exports = {
       data: dbRes,
     });
   },
+  updateUser: async (req, res) => {
+    const { id, username, email, password, city, latLng } = req.body;
+
+    dbRes = await USER.updateOne(
+      { _id: id },
+      {
+        $set: {
+          username: username,
+          email: email,
+          password: password,
+          "location.city": city,
+          "location.latLng.lat": latLng.lat,
+          "location.latLng.lng": latLng.lng,
+        },
+      }
+    );
+    res.json(dbRes);
+  },
+  removeSport: async (req, res) => {
+    const { id, interests } = req.body;
+    dbRes = await USER.updateOne(
+      { _id: id },
+      {
+        $set: {
+          interests: interests,
+        },
+      }
+    );
+    res.json(dbRes);
+  },
+  addSport: async (req, res) => {
+    const { id, interests } = req.body;
+    dbRes = await USER.updateOne(
+      { _id: id },
+      {
+        $set: {
+          interests: interests,
+        },
+      }
+    );
+    res.json(dbRes);
+  },
   login: async (req, res) => {
     const { username, password } = req.body;
 
