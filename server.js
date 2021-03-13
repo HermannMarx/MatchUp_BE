@@ -25,7 +25,12 @@ app.use(cookieParser());
 app.use(
   session({
     secret: "Aria51",
-    cookie: {},
+    cookie: {
+      path: "/users/:id",
+      _expires: null,
+      originalMaxAge: null,
+      httpOnly: true,
+    },
   })
 );
 app.use(bodyParser.json());

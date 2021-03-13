@@ -7,6 +7,7 @@ module.exports = {
   },
   getUser: async (req, res) => {
     const { id } = req.params;
+    console.log("THis is session from get User: ", req.session);
 
     dbRes = await USER.find({ _id: id });
     res.json(dbRes);
@@ -105,7 +106,7 @@ module.exports = {
     dbUsername = await USER.find({ username: username });
     if (dbUsername[0].password === password) {
       req.session.isConnected = true;
-      console.log(req.session);
+
       res.json({
         code: 200,
         _id: dbUsername[0]._id,
@@ -117,6 +118,7 @@ module.exports = {
   logout: async (req, res) => {
     if (req.session.isConnected) {
       req.session.destroy(function (err) {
+        console.log(req.session);
         res.send("You are logged out");
       });
     } else res.send("You are already logged out");

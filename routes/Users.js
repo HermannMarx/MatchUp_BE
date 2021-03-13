@@ -4,11 +4,15 @@ express = require("express");
 router = express.Router();
 
 const verify = (req, res, next) => {
-  if (req.session.isConnected === true) next();
-  else res.sendStatus(401);
+  if (req.session.isConnected === true) {
+    console.log("THis is req.session from verify: ", req.session);
+    next();
+  } /* else {
+    res.sendStatus(401);
+  } */
 };
 
-router.get("/users/:id", verify, userController.getUser);
+router.get("/users/:id", /* verify,  */ userController.getUser);
 router.get("/users", verify, userController.getAllUsers);
 router.post("/users", userController.createUser);
 router.put("/users", verify, userController.updateUser);

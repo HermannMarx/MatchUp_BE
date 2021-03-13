@@ -72,11 +72,11 @@ module.exports = {
       yr + "-" + month + "-" + day + "T" + hrs + ":" + mins + ":00.000+00:00";
 
     dbFiltered.map((invite, index) => {
-      console.log("Endtime: ", expDate);
+      /*  console.log("Endtime: ", expDate); */
       if (invite.endtime > expDate) {
         dbExp.push(invite);
       }
-      console.log("This is type: ", typeof invite.endtime);
+      /*   console.log("This is type: ", typeof invite.endtime); */
     });
 
     res.json(dbExp);
