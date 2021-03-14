@@ -174,7 +174,21 @@ module.exports = {
       ],
       league_id: league_id || null,
       information: information,
+      feedback: false,
     });
     res.json(dbRes);
+  },
+  receiveFeedback: async (req, res) => {
+    const { id } = req.body;
+    console.log("THis is id from Feedback: ", id);
+    await EVENT.updateOne(
+      { _id: id },
+      {
+        $set: {
+          feedback: true,
+        },
+      }
+    );
+    res.send("Feedback has been implemented!");
   },
 };
