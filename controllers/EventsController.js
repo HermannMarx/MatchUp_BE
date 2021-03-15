@@ -36,7 +36,10 @@ module.exports = {
       yr + "-" + month + "-" + day + "T" + hrs + ":" + mins + ":00.000+00:00";
 
     dbFiltered.map((event, index) => {
-      if (event.organizer === id || event.endtime > expDate) {
+      if (
+        (event.organizer === id && event.feedback === false) ||
+        event.endtime > expDate
+      ) {
         dbExp.push(event);
       }
     });
@@ -65,8 +68,8 @@ module.exports = {
     const yr = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const day = ("0" + date.getDate()).slice(-2);
-    const hrs = date.getHours();
-    const mins = date.getMinutes();
+    const hrs = ("0" + date.getHours()).slice(-2);
+    const mins = ("0" + date.getMinutes()).slice(-2);
 
     const expDate =
       yr + "-" + month + "-" + day + "T" + hrs + ":" + mins + ":00.000+00:00";
