@@ -26,6 +26,7 @@ const eventSchema = new Schema({
   ],
   league_id: [{ type: Schema.Types.ObjectId, ref: "League" }],
   information: String,
+  feedback: Boolean,
 });
 
 module.exports = mongoose.model("EVENT", eventSchema);
