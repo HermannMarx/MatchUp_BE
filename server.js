@@ -20,16 +20,21 @@ const users = require("./routes/Users");
 const events = require("./routes/Events");
 const leagues = require("./routes/Leagues");
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(
   session({
     secret: "Aria51",
     cookie: {
-      path: "/users/:id",
+      /*  path: "/users/:id",
       _expires: null,
       originalMaxAge: null,
       httpOnly: true,
+   */
     },
   })
 );

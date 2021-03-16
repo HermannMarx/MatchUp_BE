@@ -6,11 +6,13 @@ module.exports = {
     res.json(dbRes);
   },
   getUser: async (req, res) => {
+    console.log("I try if the getUser works");
     const { id } = req.params;
     console.log("THis is session from get User: ", req.session);
 
     dbRes = await USER.find({ _id: id });
     res.json(dbRes);
+    //    res.send("GetUser");
   },
   filterUsers: async (req, res) => {
     const { latLng, activity } = req.body;
@@ -116,11 +118,10 @@ module.exports = {
     }
   },
   logout: async (req, res) => {
-    if (req.session.isConnected) {
-      req.session.destroy(function (err) {
-        console.log(req.session);
-        res.send("You are logged out");
-      });
-    } else res.send("You are already logged out");
+    console.log("This is destroy", req.session);
+    req.session.destroy(function (err) {
+      console.log("You are logged out");
+      res.send("You are logged out");
+    });
   },
 };
