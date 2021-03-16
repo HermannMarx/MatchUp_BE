@@ -13,13 +13,13 @@ const verify = (req, res, next) => {
 };
 
 router.get("/users/:id", /* verify,  */ userController.getUser);
-router.get("/users", verify, userController.getAllUsers);
+router.get("/users", /* verify, */ userController.getAllUsers);
 router.post("/users", userController.createUser);
-router.put("/users", verify, userController.updateUser);
-router.put("/users/rmsport", verify, userController.removeSport);
-router.put("/users/addsport", verify, userController.addSport);
-router.post("/users/filter", verify, userController.filterUsers);
+router.put("/users", /* verify,  */ userController.updateUser);
+router.put("/users/rmsport", /* verify,  */ userController.removeSport);
+router.put("/users/addsport", /* verify, */ userController.addSport);
+router.post("/users/filter", /* verify, */ userController.filterUsers);
 router.post("/users/login", userController.login);
-router.get("/users/logout", verify, userController.logout);
+router.get("/users/logout", /* verify, */ userController.logout);
 
 module.exports = router;
