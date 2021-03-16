@@ -5,7 +5,10 @@ const Schema = mongoose.Schema;
 const leagueSchema = new Schema({
   location: {
     city: String,
-    latLng: Object,
+    latLng: {
+      lat: Number,
+      lng: Number,
+    },
   },
   activity: String,
   players: [

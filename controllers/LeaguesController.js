@@ -68,12 +68,11 @@ module.exports = {
     res.send("Hello Winners!");
   },
   createLeague: async (req, res) => {
-    const { city, lat, lng, activity } = req.body;
+    const { city, latLng, activity } = req.body;
     dbRes = await LEAGUE.create({
       location: {
-        city: city,
-        lat: lat,
-        lng: lng,
+        city: city || null,
+        latLng: latLng || null,
       },
       activity: activity,
       players: [],

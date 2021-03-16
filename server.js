@@ -3,6 +3,8 @@ app = express();
 cors = require("cors");
 dotenv = require("dotenv");
 dotenv.config();
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
 const { PORT, DBUSER, DBPASS, DBHOST, DBNAME } = process.env;
@@ -18,7 +20,24 @@ const users = require("./routes/Users");
 const events = require("./routes/Events");
 const leagues = require("./routes/Leagues");
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+  })
+);
+app.use(cookieParser());
+app.use(
+  session({
+    secret: "Aria51",
+    cookie: {
+      /*  path: "/users/:id",
+      _expires: null,
+      originalMaxAge: null,
+      httpOnly: true,
+   */
+    },
+  })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
