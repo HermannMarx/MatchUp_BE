@@ -20,4 +20,5 @@ router.post("/events", verify, eventsController.createEvent);
 router.get("/events/:id", verify, eventsController.getByUser);
 router.get("/events/:id/getinvites", verify, eventsController.getInvites);
 
+
 module.exports = router;

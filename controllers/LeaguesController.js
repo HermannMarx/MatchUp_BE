@@ -13,8 +13,59 @@ module.exports = {
     });
     res.json(dbRes);
   },
-  insertResults: (req, res) => {
-    res.send("Inserted Results");
+  insertAttend: async (req, res) => {
+    const { activity, player_id } = req.body;
+
+    console.log("This is activity: ", activity);
+
+    dbRes = await LEAGUE.updateOne(
+      {
+        $and: [
+          {
+            activity: activity,
+          },
+          {
+            "players.player_id": player_id,
+          },
+        ],
+      },
+
+      {
+        $inc: {
+          "players.$.attend": 1,
+        },
+      }
+    );
+
+    res.json(dbRes);
+  },
+  insertWin: async (req, res) => {
+    const { activity, winners } = req.body;
+    console.log("This is activity from winners: ", activity);
+    console.log("This is winners from winners: ", winners);
+
+    for (let i = 0; i < winners.length; i++) {
+      dbRes = await LEAGUE.updateOne(
+        {
+          $and: [
+            {
+              activity: activity,
+            },
+            {
+              "players.player_id": winners[i].player_id,
+            },
+          ],
+        },
+
+        {
+          $inc: {
+            "players.$.wins": 1,
+          },
+        }
+      );
+    }
+
+    res.send("Hello Winners!");
   },
   createLeague: async (req, res) => {
     const { city, latLng, activity } = req.body;
@@ -29,19 +80,35 @@ module.exports = {
     res.json(dbRes);
   },
   insertUser: async (req, res) => {
-    const { id, player_id } = req.body;
-    dbRes = await LEAGUE.updateOne(
-      { _id: id },
-      {
-        $push: {
-          players: {
-            player_id: player_id,
-            wins: 0,
-            attend: 0,
-          },
+    const { activity, player_id, player_name } = req.body;
+
+    const dbCheck = await LEAGUE.find({
+      $and: [
+        {
+          activity: activity,
         },
-      }
-    );
-    res.json(dbRes);
+        {
+          "players.player_id": player_id,
+        },
+      ],
+    });
+
+    if (dbCheck.length === 0) {
+      await LEAGUE.updateOne(
+        { activity: activity },
+        {
+          $push: {
+            players: {
+              player_id: player_id,
+              player_name: player_name,
+              wins: 0,
+              attend: 0,
+            },
+          },
+        }
+      );
+    }
+
+    res.json("Passed feedback successfully!");
   },
 };
