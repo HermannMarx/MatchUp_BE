@@ -3,6 +3,8 @@ app = express();
 cors = require("cors");
 dotenv = require("dotenv");
 dotenv.config();
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
 const { PORT, DBUSER, DBPASS, DBHOST, DBNAME } = process.env;
@@ -12,6 +14,24 @@ mongoose.connect(mongoDB, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
+app.use(
+  cors({
+    credentials: true,
+  })
+);
+app.use(cookieParser());
+app.use(
+  session({
+    secret: "Aria51",
+    cookie: {
+      /*  path: "/users/:id",
+      _expires: null,
+      originalMaxAge: null,
+      httpOnly: true,
+   */
+    },
+  })
+);
 const bodyParser = require("body-parser");
 
 const users = require("./routes/Users");
