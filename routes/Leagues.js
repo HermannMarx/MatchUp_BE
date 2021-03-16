@@ -14,8 +14,8 @@ const verify = (req, res, next) => {
 
 router.get("/leagues/:id", verify, leaguesController.getLeaguesById);
 router.get("/leagues", leaguesController.getAllLeagues);
-router.post("/leagues", leaguesController.createLeague);
-router.post("/leagues/insertuser", leaguesController.insertUser);
-router.post("/leagues/results", leaguesController.insertResults);
+router.post("/leagues", verify, leaguesController.createLeague);
+router.post("/leagues/insertuser", verify, leaguesController.insertUser);
+router.post("/leagues/results", verify, leaguesController.insertResults);
 
 module.exports = router;
