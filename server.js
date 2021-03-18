@@ -5,7 +5,9 @@ dotenv = require("dotenv");
 dotenv.config();
 const corsOptions = {
   origin: "https://matchupde.netlify.app/",
+  credentials: true,
 };
+
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
@@ -17,13 +19,7 @@ mongoose.connect(mongoDB, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-app.use(
-  cors({
-    credentials: true,
-  })
-);
 app.use(cors(corsOptions));
-
 app.use(cookieParser());
 app.use(
   session({
