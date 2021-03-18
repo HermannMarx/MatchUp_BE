@@ -11,11 +11,11 @@ const verify = (req, res, next) => {
   }
 };
 
-router.get("/leagues/:id", verify, leaguesController.getLeaguesById);
+router.get("/leagues/:id", leaguesController.getLeaguesById);
 router.get("/leagues", leaguesController.getAllLeagues);
-router.post("/leagues", verify, leaguesController.createLeague);
-router.post("/leagues/insertuser", verify, leaguesController.insertUser);
-router.put("/leagues/attend", verify, leaguesController.insertAttend);
-router.put("/leagues/win", verify, leaguesController.insertWin);
+router.post("/leagues", leaguesController.createLeague);
+router.post("/leagues/insertuser", leaguesController.insertUser);
+router.put("/leagues/attend", leaguesController.insertAttend);
+router.put("/leagues/win", leaguesController.insertWin);
 
 module.exports = router;

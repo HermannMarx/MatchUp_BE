@@ -12,12 +12,12 @@ const verify = (req, res, next) => {
 };
 
 router.get("/events", eventsController.getAllEvents);
-router.post("/events/invite", verify, eventsController.eventInvites);
-router.put("/events/feedback", verify, eventsController.receiveFeedback);
-router.post("/events/:id/accept", verify, eventsController.accept);
-router.post("/events/:id/cancel", verify, eventsController.cancel);
-router.post("/events", verify, eventsController.createEvent);
-router.get("/events/:id", verify, eventsController.getByUser);
-router.get("/events/:id/getinvites", verify, eventsController.getInvites);
+router.post("/events/invite", eventsController.eventInvites);
+router.put("/events/feedback", eventsController.receiveFeedback);
+router.post("/events/:id/accept", eventsController.accept);
+router.post("/events/:id/cancel", eventsController.cancel);
+router.post("/events", eventsController.createEvent);
+router.get("/events/:id", eventsController.getByUser);
+router.get("/events/:id/getinvites", eventsController.getInvites);
 
 module.exports = router;
