@@ -3,6 +3,9 @@ app = express();
 cors = require("cors");
 dotenv = require("dotenv");
 dotenv.config();
+const corsOptions = {
+  origin: "https://matchupde.netlify.app/",
+};
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
@@ -19,6 +22,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(cors(corsOptions));
+
 app.use(cookieParser());
 app.use(
   session({
