@@ -9,7 +9,7 @@ const corsOptions = {
   exposedHeaders: ["Content-Type"], // headers that you are sending back to React
   origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  preflightContinue: false,
+  preflightContinue: true,
 };
 
 const session = require("express-session");
