@@ -4,8 +4,11 @@ cors = require("cors");
 dotenv = require("dotenv");
 dotenv.config();
 const corsOptions = {
-  origin: "https://matchupde.netlify.app/",
-  credentials: true,
+  allowedHeaders: ["Content-Type"], // headers that React is sending to the API
+  exposedHeaders: ["Content-Type"], // headers that you are sending back to React
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
 };
 
 const session = require("express-session");
