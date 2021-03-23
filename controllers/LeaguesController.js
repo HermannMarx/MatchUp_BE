@@ -16,8 +16,6 @@ module.exports = {
   insertAttend: async (req, res) => {
     const { activity, player_id } = req.body;
 
-    console.log("This is activity: ", activity);
-
     dbRes = await LEAGUE.updateOne(
       {
         $and: [
@@ -41,8 +39,6 @@ module.exports = {
   },
   insertWin: async (req, res) => {
     const { activity, winners } = req.body;
-    console.log("This is activity from winners: ", activity);
-    console.log("This is winners from winners: ", winners);
 
     for (let i = 0; i < winners.length; i++) {
       dbRes = await LEAGUE.updateOne(

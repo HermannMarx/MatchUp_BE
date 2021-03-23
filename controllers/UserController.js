@@ -13,9 +13,6 @@ module.exports = {
   },
   filterUsers: async (req, res) => {
     const { latLng, activity } = req.body;
-    console.log("This is latLng:", latLng.lat);
-    console.log("This is minus:", latLng.lat - 0.05);
-    console.log("This is activity:", activity);
 
     dbUsers = await USER.find({
       $and: [
@@ -27,12 +24,6 @@ module.exports = {
       ],
     });
 
-    /*    interests: activity,
-                   "location.latLng.lat": { $gt: latLng.lat - 0.05 },
-       "location.latLng.lat": { $lt: latLng.lat + 0.05 },
-       "location.latLng.lng": { $gt: latLng.lng - 0.05 },
-       "location.latLng.lng": { $lt: latLng.lng + 0.05 }, */
-    //  db.inventory.find( { $and: [ { price: { $ne: 1.99 } }, { price: { $exists: true } } ] } )
     res.send(dbUsers);
   },
   createUser: async (req, res) => {
@@ -47,7 +38,7 @@ module.exports = {
         latLng: {
           lat: latLng.lat,
           lng: latLng.lng,
-        }, //latLng,
+        },
       },
       interests: interests,
     });
@@ -114,9 +105,9 @@ module.exports = {
     }
   },
   logout: async (req, res) => {
-    console.log("This is destroy", req.session);
+    //console.log("This is destroy", req.session);
     req.session.destroy(function (err) {
-      console.log("You are logged out");
+      //console.log("You are logged out");
       res.send("You are logged out");
     });
   },

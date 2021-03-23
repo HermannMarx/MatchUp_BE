@@ -75,7 +75,6 @@ module.exports = {
       yr + "-" + month + "-" + day + "T" + hrs + ":" + mins + ":00.000+00:00";
 
     dbFiltered.map((invite, index) => {
-      console.log("Endtime: ", expDate);
       if (invite.endtime > expDate) {
         dbExp.push(invite);
       }
@@ -86,8 +85,7 @@ module.exports = {
   },
   eventInvites: async (req, res) => {
     const { id, players } = req.body;
-    console.log(players);
-    console.log(id);
+
     num = players.length;
 
     for (let i = 0; i < num; i++) {
@@ -152,8 +150,6 @@ module.exports = {
     const validStart = date.split("T")[0] + "T" + starttime + ":00.000+00:00";
     const validEnd = date.split("T")[0] + "T" + endtime + ":00.000+00:00";
 
-    console.log("This is date: ", validStart);
-
     dbRes = await EVENT.create({
       location: {
         city: city || null,
@@ -183,7 +179,7 @@ module.exports = {
   },
   receiveFeedback: async (req, res) => {
     const { id } = req.body;
-    console.log("THis is id from Feedback: ", id);
+
     await EVENT.updateOne(
       { _id: id },
       {

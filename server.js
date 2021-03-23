@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
 const { PORT, DBUSER, DBPASS, DBHOST, DBNAME } = process.env;
-console.log(PORT, DBUSER, DBPASS, DBHOST, DBNAME);
+//console.log(PORT, DBUSER, DBPASS, DBHOST, DBNAME);
 const mongoDB = `mongodb+srv://${DBUSER}:${DBPASS}@${DBHOST}/${DBNAME}`;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 const db = mongoose.connection;
@@ -28,13 +28,7 @@ app.use(cookieParser());
 app.use(
   session({
     secret: "Aria51",
-    cookie: {
-      /*  path: "/users/:id",
-      _expires: null,
-      originalMaxAge: null,
-      httpOnly: true,
-   */
-    },
+    cookie: {},
   })
 );
 const bodyParser = require("body-parser");

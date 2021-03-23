@@ -12,7 +12,7 @@ const userSchema = new Schema({
     latLng: {
       lat: Number,
       lng: Number,
-    } /* Object, */,
+    },
   },
   interests: Array,
 });
