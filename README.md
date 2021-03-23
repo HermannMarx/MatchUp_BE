@@ -6,7 +6,7 @@ This project was created for the final assignment at the [WBS CODING SCHOOL](htt
 
 - [Description](#description)
 - [Organisation](#organisation)
-- [Back-End](#back-end)
+- [Front-End](#front-end)
 - [Endpoints](#api-endpoints)
 - [Live](#live)
 - [Programming](#programming)
@@ -25,9 +25,9 @@ Trello Boards:
 - [Sprint 2](https://trello.com/b/mPKFPYuN/matchup-sprint-2)
 - [Sprint 3](https://trello.com/b/XLXSaDP9/matchup-sprint-3)
 
-## Back-End
+## Front-End
 
-The back-end part of this project has got its own [GitHub reposetory](https://github.com/HermannMarx/MatchUp_BE). It retrieves its data from a [MongoDB](https://www.mongodb.com/) database by using [mongoose.js](https://mongoosejs.com). The back-end app is deployed on [Heroku](https://matchup-be.herokuapp.com/).
+The front-end part of this project has got its own [GitHub reposetory](https://github.com/HermannMarx/MatchUp). To do its request to the backend the frontend uses [Axios](https://www.npmjs.com/package/axios).
 
 ## Endpoints
 
